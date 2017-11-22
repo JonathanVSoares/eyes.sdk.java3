@@ -87,10 +87,13 @@ public class SeleniumCheckSettings extends CheckSettings implements ISeleniumChe
     }
 
     public SeleniumCheckSettings ignore(WebElement... elements) {
+        int targetElementXLocation = targetElement.getLocation().getX();
+        int targetElementYLocation = targetElement.getLocation().getY();
         for (WebElement element : elements) {
             Point loc = element.getLocation();
             Dimension dim = element.getSize();
-            Region region = new Region(loc.getX(), loc.getY(), dim.getWidth(), dim.getHeight());
+            Region region = new Region(loc.getX() - targetElementXLocation, loc.getY() - targetElementYLocation, 
+                                       dim.getWidth(), dim.getHeight());
             ignore(new IgnoreRegionByRectangle(region));
         }
 
